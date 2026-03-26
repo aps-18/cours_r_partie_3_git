@@ -3,7 +3,9 @@ title: "td3"
 format: pdf
 editor: source
 ---
-# exercice 3
+
+# EXERCICE 3
+
 
 # q2
 
@@ -11,7 +13,6 @@ editor: source
 library(readr)
 df_velo <- read_delim('data/vélo.csv')
 ```
-
 
 ```{r}
 library(dplyr)
@@ -31,7 +32,7 @@ df_d_0512 <- df_velo |>
 
 ```{r}
 filtre_anomalie <- function(df_velo1) {
-  df_velo |>
+  df_velo1 |>
     filter(!`Probabilité de présence d'anomalies` %in% c("Forte", "Faible"))
 }
 ```
@@ -52,9 +53,45 @@ nrow(df_d_1802) - nrow(df_d_1802_1)
 nrow(df_d_0512) - nrow(df_d_0512_1)
 ```
 
-- lignes filtrées pour boucle Pirmil : -18075
-- lignes filtrées pour boucle Sorinières : -18778
-- lignes filtrées pour date 18/02 : -19083
-- lignes filtrées pour date 5/12 : -19083
+- lignes filtrées pour boucle Pirmil : 374
+- lignes filtrées pour boucle Sorinières : 10
+- lignes filtrées pour date 18/02 : 6
+- lignes filtrées pour date 5/12 : 11
+
+
+# q4
+
+```{r}
+compter_nombre_trajets <- function(df_velo2) {
+  df_velo2 |>
+    select(`00`:`23`) |>
+    sum(na.rm = TRUE)
+}
+```
+
+```{r}
+compter_nombre_trajets(df_b_672_1)
+compter_nombre_trajets(df_b_960_1)
+
+compter_nombre_trajets(df_d_1802_1)
+compter_nombre_trajets(df_d_0512_1)
+```
+
+- nombre de trajets pour boucle Pirmil : 593505
+- nombre de trajets pour boucle Sorinières : 24948
+- nombre de trajets pour date 18/02 : 44533
+- nombre de trajets pour date 5/12 : 37913
+
+
+
+
+
+
+
+
+
+
+
+
 
 
