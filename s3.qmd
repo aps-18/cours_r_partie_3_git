@@ -274,4 +274,29 @@ trouver_trajet_max(df_velo)
 - paire boucle/jour avec max de passage pour le jeu de données complet : 747 - Chemin de halage Tortière vers Nord 2025-02-10 345780 ; moyenne par jour sur cette boucle : 4767.108 ; moyenne par boucle à cette date : 7207.283
 
 
+# q11 (bonus)
 
+```{r}
+# Fonction générique : on utilise le générique max déjà existant en R
+max.trajet <- function(x, ...) {
+  
+  colonnes_attendues <- c("Boucle de comptage", "Jour", "Total")
+  
+  if (!all(colonnes_attendues %in% names(x))) {
+    stop("Le data.frame doit contenir les colonnes 'Boucle de comptage', 'Jour' et 'Total'.")
+  }
+  
+  trouver_trajet_max(x)
+}
+```
+
+```{r}
+df_b_890_trajet <- df_b_890
+class(df_b_890_trajet) <- c("trajet", class(df_b_890_trajet))
+
+max(df_b_890_trajet)
+```
+
+- paire boucle/jour avec max de passage pour boucle Pirmil : 2025-09-18 4951 ; moyenne par jour sur cette boucle : 2628.853 ; moyenne par boucle à cette date : 4951
+
+Même résultat que précédemment.
