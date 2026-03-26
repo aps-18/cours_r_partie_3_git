@@ -130,11 +130,42 @@ trouver_trajet_max(df_d_1802_1)
 trouver_trajet_max(df_d_0512_1)
 ```
 
-- trajet max pour boucle Pirmil : 4951
-- trajet max pour boucle Sorinières : 152
-- trajet max pour date 18/02 : Pirmil 2700
-- trajet max pour date 5/12 : Pirmil 2638
+- paire boucle/jour avec max de passage pour boucle Pirmil : 2025-09-18 4951
+- paire boucle/jour avec max de passage pour boucle Sorinières : 2025-06-10 152
+- paire boucle/jour avec max de passage pour date 18/02 : Pirmil 2700
+- paire boucle/jour avec max de passage pour date 5/12 : Pirmil 2638
 
+
+# q7
+
+```{r}
+trouver_trajet_max(df_velo)
+```
+
+- paire boucle/jour avec max de passage : Chemin de halage Tortière vers Nord 
+                                          date : 2025-02-10   nb : 345780
+Valeur qui semble extrême                                          
+                                          
+```{r}
+filtre_anomalie <- function(df_velo5) {
+  df_velo5 |>
+    filter(is.na(`Probabilité de présence d'anomalies`))
+}
+
+df_velo_5 <- filtre_anomalie(df_velo)
+trouver_trajet_max(df_velo_5)
+```
+
+On trouve le même résultat
+
+```{r}
+df_velo |>
+  filter(Total == max(Total, na.rm = TRUE)) |>
+  select(`Boucle de comptage`, `Date formatée`, Total,
+         `Probabilité de présence d'anomalies`)
+```
+
+La variable Probabilité de présence d'anomalies ne détecte pas cette observation (le trouver_trajet_max) comme anormale. Le filtrage par cette seule variable n’est donc pas suffisant.
 
 
 
