@@ -32,8 +32,10 @@ df_d_0512 <- df_velo |>
 
 ```{r}
 filtre_anomalie <- function(df_velo1) {
-  df_velo1 |>
+  trajet_filtre <- df_velo1 |>
     filter(!`Probabilité de présence d'anomalies` %in% c("Forte", "Faible"))
+  
+  return(trajet_filtre)
 }
 ```
 
@@ -63,9 +65,11 @@ nrow(df_d_0512) - nrow(df_d_0512_1)
 
 ```{r}
 compter_nombre_trajets <- function(df_velo2) {
-  df_velo2 |>
-    select(`00`:`23`) |>
+  nb_trajet <- df_velo2 |>
+    pull(Total) |>
     sum(na.rm = TRUE)
+  
+  return(nb_trajet)
 }
 ```
 
@@ -87,10 +91,12 @@ compter_nombre_trajets(df_d_0512_1)
 
 ```{r}
 compter_nombre_boucle <- function(df_velo3) {
-  df_velo3 |>
+  nb_boucle <- df_velo3 |>
     pull(`Numéro de boucle`) |>
     unique() |>
     length()
+  
+  return(nb_boucle)
 }
 ```
 
@@ -112,13 +118,11 @@ compter_nombre_boucle(df_d_0512_1)
 
 ```{r}
 trouver_trajet_max <- function(df_velo4) {
-  df_velo4|>
+  trajet_max <- df_velo4|>
     slice_max(Total, n = 1) |>
-    select(
-      `Boucle de comptage`,
-      `Date formatée`,
-      Total
-    )
+    select(`Boucle de comptage`, `Date formatée`,Total)
+  
+  return(trajet_max)
 }
 ```
 
@@ -144,19 +148,7 @@ trouver_trajet_max(df_velo)
 
 - paire boucle/jour avec max de passage : Chemin de halage Tortière vers Nord 
                                           date : 2025-02-10   nb : 345780
-Valeur qui semble extrême                                          
-                                          
-```{r}
-filtre_anomalie <- function(df_velo5) {
-  df_velo5 |>
-    filter(is.na(`Probabilité de présence d'anomalies`))
-}
-
-df_velo_5 <- filtre_anomalie(df_velo)
-trouver_trajet_max(df_velo_5)
-```
-
-On trouve le même résultat
+Valeur qui semble extrême, DB à contrôler                                        
 
 ```{r}
 df_velo |>
@@ -167,6 +159,21 @@ df_velo |>
 
 La variable Probabilité de présence d'anomalies ne détecte pas cette observation (le trouver_trajet_max) comme anormale. Le filtrage par cette seule variable n’est donc pas suffisant.
 
+```{r}
+filtre_anomalie1 <- function(df_velo5) {
+  nv_filtre_anomalie <- df_velo5 |>
+    filter(!`Probabilité de présence d'anomalies` %in% c("Forte", "Faible")) |> 
+    filter(Total >0, Total < 10000)
+  
+  return(nv_filtre_anomalie)
+}
+
+df_velo_5 <- filtre_anomalie1(df_velo)
+
+trouver_trajet_max(df_velo_5)
+```
+
+On ne trouve plus le même résultat
 
 # q8
 
@@ -204,12 +211,13 @@ plot_distribution_semaine <- function(df_velo7) {
     calcul_distribution_semaine() |>
     ggplot(aes(x = factor(`Jour de la semaine`),
                                  y = total_trajets)) +
-    geom_col() +
+    geom_col(fill = "cornflowerblue") +
     labs(
       x = "Jour de la semaine",
       y = "Nombre de trajets",
       title = "Distribution hebdomadaire des trajets"
-    )
+    ) +
+    theme_bw()
 }
 ```
 
