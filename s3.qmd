@@ -16,8 +16,8 @@ df_velo <- read_delim('data/vélo.csv')
 
 ```{r}
 library(dplyr)
-df_b_672 <- df_velo |> 
-  filter(`Numéro de boucle` == 672)
+df_b_890 <- df_velo |> 
+  filter(`Numéro de boucle` == 890)
 df_b_960 <- df_velo |> 
   filter(`Numéro de boucle` == 960)
 
@@ -38,7 +38,7 @@ filtre_anomalie <- function(df_velo1) {
 ```
 
 ```{r}
-df_b_672_1 <- df_b_672 |> filtre_anomalie()
+df_b_890_1 <- df_b_890 |> filtre_anomalie()
 df_b_960_1 <- df_b_960 |> filtre_anomalie()
 
 df_d_1802_1 <- df_d_1802 |> filtre_anomalie()
@@ -46,14 +46,14 @@ df_d_0512_1 <- df_d_0512 |> filtre_anomalie()
 ```
 
 ```{r}
-nrow(df_b_672) - nrow(df_b_672_1)
+nrow(df_b_890) - nrow(df_b_890_1)
 nrow(df_b_960) - nrow(df_b_960_1)
 
 nrow(df_d_1802) - nrow(df_d_1802_1)
 nrow(df_d_0512) - nrow(df_d_0512_1)
 ```
 
-- lignes filtrées pour boucle Pirmil : 374
+- lignes filtrées pour boucle Pirmil : 4
 - lignes filtrées pour boucle Sorinières : 10
 - lignes filtrées pour date 18/02 : 6
 - lignes filtrées pour date 5/12 : 11
@@ -70,14 +70,14 @@ compter_nombre_trajets <- function(df_velo2) {
 ```
 
 ```{r}
-compter_nombre_trajets(df_b_672_1)
+compter_nombre_trajets(df_b_890_1)
 compter_nombre_trajets(df_b_960_1)
 
 compter_nombre_trajets(df_d_1802_1)
 compter_nombre_trajets(df_d_0512_1)
 ```
 
-- nombre de trajets pour boucle Pirmil : 593505
+- nombre de trajets pour boucle Pirmil : 949016
 - nombre de trajets pour boucle Sorinières : 24948
 - nombre de trajets pour date 18/02 : 44533
 - nombre de trajets pour date 5/12 : 37913
@@ -95,7 +95,7 @@ compter_nombre_boucle <- function(df_velo3) {
 ```
 
 ```{r}
-compter_nombre_boucle(df_b_672_1)
+compter_nombre_boucle(df_b_890_1)
 compter_nombre_boucle(df_b_960_1)
 
 compter_nombre_boucle(df_d_1802_1)
@@ -108,10 +108,32 @@ compter_nombre_boucle(df_d_0512_1)
 - nombre de boucles pour date 5/12 : 47
 
 
+# q6
 
+```{r}
+trouver_trajet_max <- function(df_velo4) {
+  df_velo4|>
+    slice_max(Total, n = 1) |>
+    select(
+      `Boucle de comptage`,
+      `Date formatée`,
+      Total
+    )
+}
+```
 
+```{r}
+trouver_trajet_max(df_b_890_1)
+trouver_trajet_max(df_b_960_1)
 
+trouver_trajet_max(df_d_1802_1)
+trouver_trajet_max(df_d_0512_1)
+```
 
+- trajet max pour boucle Pirmil : 4951
+- trajet max pour boucle Sorinières : 152
+- trajet max pour date 18/02 : Pirmil 2700
+- trajet max pour date 5/12 : Pirmil 2638
 
 
 
