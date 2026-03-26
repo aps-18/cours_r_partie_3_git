@@ -286,15 +286,15 @@ trouver_trajet_max(df_velo)
 
 ```{r}
 # Fonction générique : on utilise le générique max déjà existant en R
-max.trajet <- function(x, ...) {
+max.trajet <- function(trajet, ...) {
   
   colonnes_attendues <- c("Boucle de comptage", "Jour", "Total")
   
-  if (!all(colonnes_attendues %in% names(x))) {
+  if (!all(colonnes_attendues %in% names(trajet))) {
     stop("Le data.frame doit contenir les colonnes 'Boucle de comptage', 'Jour' et 'Total'.")
   }
   
-  trouver_trajet_max(x)
+  trouver_trajet_max(trajet)
 }
 ```
 
