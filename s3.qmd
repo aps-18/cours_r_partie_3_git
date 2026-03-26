@@ -168,4 +168,30 @@ df_velo |>
 La variable Probabilité de présence d'anomalies ne détecte pas cette observation (le trouver_trajet_max) comme anormale. Le filtrage par cette seule variable n’est donc pas suffisant.
 
 
+# q8
+
+```{r}
+calcul_distribution_semaine <- function(df_velo6) {
+  df_velo6 |>
+    group_by(`Jour de la semaine`) |>
+    summarise(total_trajets = sum(Total, na.rm = TRUE))
+}
+```
+
+```{r}
+calcul_distribution_semaine(df_b_890_1)
+calcul_distribution_semaine(df_b_960_1)
+
+calcul_distribution_semaine(df_d_1802_1)
+calcul_distribution_semaine(df_d_0512_1)
+```
+
+- RÉSULTATS : somme trajet par jour de la semaine
+- Pirmil : mardi max 
+- Sorinières : mardi max 
+- 18/02 : mardi max 
+- 5/12 : vendredi max 
+
+
+
 
