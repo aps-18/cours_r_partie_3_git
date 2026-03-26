@@ -198,8 +198,8 @@ calcul_distribution_semaine(df_d_0512_1)
 ```{r}
 library(ggplot2)
 
-plot_distribution_semaine <- function(df) {
-  df |>
+plot_distribution_semaine <- function(df_velo7) {
+  df_velo7 |>
     filtre_anomalie() |>
     calcul_distribution_semaine() |>
     ggplot(aes(x = factor(`Jour de la semaine`),
@@ -221,4 +221,57 @@ plot_distribution_semaine(df_b_960_1)
 plot_distribution_semaine(df_d_1802_1)
 plot_distribution_semaine(df_d_0512_1)
 ```
+
+
+# q10
+
+```{r}
+trouver_trajet_max <- function(df_velo8) {
+  df_sans_anomalie <- df_velo8 |>
+    filtre_anomalie()
+  
+  ligne_max <- df_sans_anomalie |>
+    slice_max(Total, n = 1)
+  
+  boucle_max <- ligne_max$`Boucle de comptage`[1]
+  date_max <- ligne_max$`Date formatée`[1]
+  total_max <- ligne_max$Total[1]
+  
+  moyenne_par_jour_boucle <- df_sans_anomalie |>
+    filter(`Boucle de comptage` == boucle_max) |>
+    summarise(moyenne = mean(Total, na.rm = TRUE)) |>
+    pull(moyenne)
+  
+  moyenne_par_boucle_date <- df_sans_anomalie |>
+    filter(`Date formatée` == date_max) |>
+    summarise(moyenne = mean(Total, na.rm = TRUE)) |>
+    pull(moyenne)
+  
+  data.frame(
+    `Boucle de comptage` = boucle_max,
+    `Date formatée` = date_max,
+    Total = total_max,
+    moyenne_par_jour_boucle = moyenne_par_jour_boucle,
+    moyenne_par_boucle_date = moyenne_par_boucle_date
+  )
+}
+```
+
+```{r}
+trouver_trajet_max(df_b_890)
+trouver_trajet_max(df_b_960)
+
+trouver_trajet_max(df_d_1802)
+trouver_trajet_max(df_d_0512)
+
+trouver_trajet_max(df_velo)
+```
+- paire boucle/jour avec max de passage pour boucle Pirmil : 2025-09-18 4951 ; moyenne par jour sur cette boucle : 2628.853 ; moyenne par boucle à cette date : 4951
+- paire boucle/jour avec max de passage pour boucle Sorinières : 2025-06-10 152 ; moyenne par jour sur cette boucle : 70.27606 ; moyenne par boucle à cette date : 152
+- paire boucle/jour avec max de passage pour date 18/02 : Pirmil 2700 ; moyenne par jour sur cette boucle : 2700 ; moyenne par boucle à cette date : 824.6852
+- paire boucle/jour avec max de passage pour date 5/12 : Pirmil 2638 ; moyenne par jour sur cette boucle : 2638 ; moyenne par boucle à cette date : 773.7347
+
+- paire boucle/jour avec max de passage pour le jeu de données complet : 747 - Chemin de halage Tortière vers Nord 2025-02-10 345780 ; moyenne par jour sur cette boucle : 4767.108 ; moyenne par boucle à cette date : 7207.283
+
+
 
