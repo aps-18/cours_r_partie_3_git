@@ -3,8 +3,26 @@ title: "td3"
 format: pdf
 editor: source
 ---
+# exercice 3
+
+# q2
 
 ```{r}
+library(readr)
+df_velo <- read_delim('data/vélo.csv')
+```
 
+
+```{r}
+library(dplyr)
+df_b_672 <- df_velo |> 
+  filter(`Numéro de boucle` == 672)
+df_b_960 <- df_velo |> 
+  filter(`Numéro de boucle` == 960)
+
+df_d_1802 <- df_velo |> 
+  filter(`Date formatée` == "2025-02-18")
+df_d_0512 <- df_velo |> 
+  filter(`Date formatée` == "2025-12-05")
 ```
 
