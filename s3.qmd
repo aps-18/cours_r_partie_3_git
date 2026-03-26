@@ -26,3 +26,35 @@ df_d_0512 <- df_velo |>
   filter(`Date formatée` == "2025-12-05")
 ```
 
+
+# q3
+
+```{r}
+filtre_anomalie <- function(df_velo1) {
+  df_velo |>
+    filter(!`Probabilité de présence d'anomalies` %in% c("Forte", "Faible"))
+}
+```
+
+```{r}
+df_b_672_1 <- df_b_672 |> filtre_anomalie()
+df_b_960_1 <- df_b_960 |> filtre_anomalie()
+
+df_d_1802_1 <- df_d_1802 |> filtre_anomalie()
+df_d_0512_1 <- df_d_0512 |> filtre_anomalie()
+```
+
+```{r}
+nrow(df_b_672) - nrow(df_b_672_1)
+nrow(df_b_960) - nrow(df_b_960_1)
+
+nrow(df_d_1802) - nrow(df_d_1802_1)
+nrow(df_d_0512) - nrow(df_d_0512_1)
+```
+
+- lignes filtrées pour boucle Pirmil : -18075
+- lignes filtrées pour boucle Sorinières : -18778
+- lignes filtrées pour date 18/02 : -19083
+- lignes filtrées pour date 5/12 : -19083
+
+
