@@ -193,5 +193,32 @@ calcul_distribution_semaine(df_d_0512_1)
 - 5/12 : vendredi max 
 
 
+# q9
 
+```{r}
+library(ggplot2)
+
+plot_distribution_semaine <- function(df) {
+  df |>
+    filtre_anomalie() |>
+    calcul_distribution_semaine() |>
+    ggplot(aes(x = factor(`Jour de la semaine`),
+                                 y = total_trajets)) +
+    geom_col() +
+    labs(
+      x = "Jour de la semaine",
+      y = "Nombre de trajets",
+      title = "Distribution hebdomadaire des trajets"
+    )
+}
+```
+
+
+```{r}
+plot_distribution_semaine(df_b_890_1)
+plot_distribution_semaine(df_b_960_1)
+
+plot_distribution_semaine(df_d_1802_1)
+plot_distribution_semaine(df_d_0512_1)
+```
 
